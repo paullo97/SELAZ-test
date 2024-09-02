@@ -2,7 +2,7 @@
   <div matDialogTitle class="title">
     <h1 >List of Users</h1>
     <div class="spacer"></div>
-    <button mat-mini-fab color="primary" aria-label="Register New User">
+    <button mat-mini-fab color="primary" aria-label="Register New User" (click)="registerNewUserModal('')">
       <mat-icon>add</mat-icon>
     </button>
   </div>
@@ -10,18 +10,20 @@
     <mat-list role="list">
       @for (item of [
         {
+          id: '1',
           nome: 'Paulo Cesar',
           role: 'admin'
         },
         {
+          id: '2',
           nome: 'cesar Paulo',
-          role: 'default'
+          role: 'user'
         }
       ]; track item) {
         <mat-list-item style="display: flex; flex-direction: row-reverse; flex-wrap: nowrap;">
 
-          <mat-icon matListItemIcon style="color: red; cursor: pointer;">delete</mat-icon>
-          <mat-icon color="accent" matListItemIcon style="color: #3f51b5; cursor: pointer;">edit</mat-icon>
+          <mat-icon matListItemIcon style="color: red; cursor: pointer;" (click)="deleteUser(item.id)">delete</mat-icon>
+          <mat-icon color="accent" matListItemIcon style="color: #3f51b5; cursor: pointer;" (click)="registerNewUserModal(item.id)">edit</mat-icon>
           <div matListItemTitle>{{item.nome}}</div>
           <div matListItemLine>{{item.role}}</div>
           <div class="spacer"></div>
