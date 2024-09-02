@@ -23,9 +23,7 @@ export class HeaderComponent {
   { }
 
   public openDialogUser() {
-    console.log('open')
     this.dialog.open(ModalUsersComponent, {
-      minHeight: '400px',
       minWidth: '600px',
     });
   }
