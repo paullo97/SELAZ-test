@@ -1,0 +1,18 @@
+<div class="modal">
+  <mat-form-field>
+    <mat-label>User Name</mat-label>
+    <input matInput [(ngModel)]="name">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Select</mat-label>
+    <mat-select [(ngModel)]="role">
+      <mat-option value="admin">Administrator</mat-option>
+      <mat-option value="user">User</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-dialog-actions [align]="'center'">
+    <button mat-button color="warn" (click)="onNoClick()">No Thanks</button>
+    <button mat-button cdkFocusInitial color="primary" (click)="register()">Ok</button>
+  </mat-dialog-actions>
+</div>
