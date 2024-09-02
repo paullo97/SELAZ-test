@@ -1,0 +1,9 @@
+<div class="content-modal-confirm">
+  <div matDialogTitle class="title">
+    <h1>You are Confirm this?</h1>
+  </div>
+  <mat-dialog-actions [align]="'end'">
+    <button mat-button color="warn" (click)="onNoClick()">Cancel</button>
+    <button mat-button cdkFocusInitial color="primary" (click)="confirm()">Confirm</button>
+  </mat-dialog-actions>
+</div>
