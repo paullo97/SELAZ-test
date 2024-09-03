@@ -30,4 +30,22 @@ export class LocalStorageService<T> {
   removeItem(key: string): void {
     localStorage.removeItem(key);
   }
+
+    /**
+   * Remove um item de uma lista armazenada no localStorage com base em um identificador único.
+   * @param key Chave do localStorage onde a lista está armazenada.
+   * @param id Identificador do item a ser removido.
+   */
+    removeItemArray(key: string, id: any): void {
+      const list = this.getItem(key);
+
+      // Verifica se a lista existe e é um array
+      if (Array.isArray(list)) {
+        // Filtra a lista para remover o item com o identificador fornecido
+        const updatedList = list.filter((item: any) => item.id !== id);
+
+        // Atualiza o localStorage com a lista filtrada
+        this.setItem(key, updatedList as T);
+      }
+    }
 }
