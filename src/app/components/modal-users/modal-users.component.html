@@ -8,23 +8,12 @@
   </div>
   <mat-dialog-content>
     <mat-list role="list">
-      @for (item of [
-        {
-          id: '1',
-          nome: 'Paulo Cesar',
-          role: 'admin'
-        },
-        {
-          id: '2',
-          nome: 'cesar Paulo',
-          role: 'user'
-        }
-      ]; track item) {
+      @for (item of listUsers; track item) {
         <mat-list-item style="display: flex; flex-direction: row-reverse; flex-wrap: nowrap;">
-
-          <mat-icon matListItemIcon style="color: red; cursor: pointer;" (click)="deleteUser(item.id)">delete</mat-icon>
-          <mat-icon color="accent" matListItemIcon style="color: #3f51b5; cursor: pointer;" (click)="registerNewUserModal(item.id)">edit</mat-icon>
-          <div matListItemTitle>{{item.nome}}</div>
+          <mat-icon matTooltip="Delete User" matListItemIcon style="color: red; cursor: pointer;" (click)="deleteUser(item.id)">delete</mat-icon>
+          <mat-icon matTooltip="Edit User" color="accent" matListItemIcon style="color: #3f51b5; cursor: pointer;" (click)="registerNewUserModal(item.id)">edit</mat-icon>
+          <mat-icon matTooltip="Select user" color="primary" matListItemIcon style="color: green; cursor: pointer;" (click)="selectUser(item)">check</mat-icon>
+          <div matListItemTitle>{{item.name}}</div>
           <div matListItemLine>{{item.role}}</div>
           <div class="spacer"></div>
         </mat-list-item>
