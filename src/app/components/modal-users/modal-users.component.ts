@@ -96,25 +96,21 @@ export class ModalUsersComponent implements OnInit {
 
   public deleteUser(id: string): void {
     // After implements request or similar to delete user, and verify if selected user if admin to possibility delete.
-    // in poker, this is like a note 5;
-    console.log('deleteUser');
     const dialogRef = this.dialog.open(ModalConfirmComponent, {
       minWidth: '300px'
     })
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log(result);
-
       if (result) {
         const listUsers = this.localStorage.getItem('listUsers');
         const updatedListUsers = listUsers.filter((user: any) => user.id !== id)
         this.localStorage.setItem('listUsers', updatedListUsers);
         this.listUsers = updatedListUsers;
       }
+
+      this.dialogRef.close();
     });
 
-    this.dialogRef.close();
   }
 
   public selectUser(user: any) {
