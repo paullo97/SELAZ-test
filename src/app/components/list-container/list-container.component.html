@@ -1,0 +1,64 @@
+<div class="container">
+  <h1>LIST TASK</h1>
+
+  <div>
+    <mat-list role="list" class="container-list">
+      @for (item of task; track item) {
+      <mat-list-item
+        style="display: flex; flex-direction: row-reverse; flex-wrap: nowrap"
+      >
+        <mat-icon
+          matTooltip="Delete Task"
+          matListItemIcon
+          style="color: red; cursor: pointer"
+          (click)="handleDeleteTask(item.id)"
+          >delete</mat-icon
+        >
+
+        @if (item.status === 1) {
+          <mat-icon
+            matTooltip="Complete Task"
+            color="primary"
+            matListItemIcon
+            style="color: green; cursor: pointer"
+            (click)="handleCompleteTask(item.id)"
+          >
+            check
+          </mat-icon>
+        }
+
+        @if (item.status === 0) {
+          <mat-icon
+            matTooltip="Initiate Task"
+            color="primary"
+            matListItemIcon
+            style="color: green; cursor: pointer"
+          >
+            arrow_forward
+          </mat-icon>
+        }
+
+        @if (item.status !== 2) {
+          <mat-icon
+            matListItemIcon
+            matTooltip="Edit Task"
+            color="accent"
+            style="color: #3f51b5; cursor: pointer"
+            (click)="handleEditTask(item.id)"
+          >
+            edit
+          </mat-icon>
+        }
+
+
+        <div class="spacer"></div>
+        <div matListItemTitle>{{ item.titulo }}</div>
+        <div matListItemLine>{{ item.responsavel }}</div>
+        <div matListItemLine>{{ item.status }}</div>
+      </mat-list-item>
+
+      <mat-divider />
+      }
+    </mat-list>
+  </div>
+</div>

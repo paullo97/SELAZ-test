@@ -1,0 +1,21 @@
+.container
+{
+  display: flex;
+  flex-direction: column;
+  height: 89vh;
+  justify-content: center;
+  align-items: center;
+
+  &-list {
+    background-color: rgba(128, 128, 128, 0.174);
+    padding: 20px;
+    border-radius: 5px;
+    width: 80vw;
+
+    .spacer {
+      flex: 1 1 auto;
+    }
+  }
+
+
+}
