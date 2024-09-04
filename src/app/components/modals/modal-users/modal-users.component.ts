@@ -10,11 +10,10 @@ import {
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { LocalStorageService } from '../../../core/services/local-storage.service';
 import { ModalRegisterUserComponent } from '../modal-register-user/modal-register-user.component';
 import { ModalConfirmComponent } from '../modal-confirm/modal-confirm.component';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { LocalStorageService } from '../../core/services/local-storage.service';
-
 
 @Component({
   selector: 'app-modal-users',

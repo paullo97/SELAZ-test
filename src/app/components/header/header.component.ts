@@ -5,9 +5,9 @@ import {MatButtonModule} from '@angular/material/button';
 import {
   MatDialog,
 } from '@angular/material/dialog';
-import { ModalUsersComponent } from '../modal-users/modal-users.component';
 import { LocalStorageService } from '../../core/services/local-storage.service';
 import {MatBadgeModule} from '@angular/material/badge';
+import { ModalUsersComponent } from '../modals/modal-users/modal-users.component';
 
 @Component({
   selector: 'app-header',

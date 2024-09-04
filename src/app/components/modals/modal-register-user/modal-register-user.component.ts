@@ -9,8 +9,8 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
-import { LocalStorageService } from '../../core/services/local-storage.service';
-import { UuidService } from '../../core/services/uuid.service';
+import { LocalStorageService } from '../../../core/services/local-storage.service';
+import { UuidService } from '../../../core/services/uuid.service';
 @Component({
   selector: 'app-modal-register-user',
   standalone: true,
