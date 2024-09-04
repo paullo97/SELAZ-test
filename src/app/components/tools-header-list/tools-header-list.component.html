@@ -1,0 +1,15 @@
+<div class="header-list">
+  <button mat-raised-button color="primary" (click)="showModalRegisterTask()">Add Task</button>
+  <mat-form-field>
+    <mat-label>Filter</mat-label>
+    <mat-select>
+      <mat-option value="all">All</mat-option>
+      <mat-option value="completed">Completed</mat-option>
+      <mat-option value="prepare">Prepare</mat-option>
+      <mat-option value="initiated">Initiated</mat-option>
+      @if (!user) {
+        <mat-option value="byUser">By User Selected</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+</div>
