@@ -9,7 +9,6 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
-import { LocalStorageService } from '../../../core/services/local-storage.service';
 import { UuidService } from '../../../core/services/uuid.service';
 @Component({
   selector: 'app-modal-register-user',
@@ -27,16 +26,14 @@ import { UuidService } from '../../../core/services/uuid.service';
 })
 export class ModalRegisterUserComponent implements OnInit {
   constructor(
-    private localStorage: LocalStorageService<any>,
     private uuid: UuidService
   )
   { }
 
   public ngOnInit(): void {
+    console.log(this.data);
     if(this.data.id.length > 0) {
-      // After implements request o localStorage or similar
-      // FIX after when this works
-      const { name, role, id } = this.localStorage.getItem('listUsers').filter((user: any) => user.id === this.data.id)[0];
+      const { name, role, id } = this.data;
       this.name = name;
       this.role = role;
       this.id = id;

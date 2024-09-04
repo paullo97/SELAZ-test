@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   MatDialog,
   MatDialogActions,
@@ -11,9 +11,14 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { LocalStorageService } from '../../../core/services/local-storage.service';
 import { ModalRegisterUserComponent } from '../modal-register-user/modal-register-user.component';
 import { ModalConfirmComponent } from '../modal-confirm/modal-confirm.component';
+import { Store } from '@ngrx/store';
+import { UsersStore } from '../../../core/store/users/user.store';
+import { getUsersList } from '../../../core/store/users/user.selectors';
+import { Observable } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { deleteUser, editUser, registerNewUser } from '../../../core/store/users/users.actions';
 
 @Component({
   selector: 'app-modal-users',
@@ -26,66 +31,51 @@ import { ModalConfirmComponent } from '../modal-confirm/modal-confirm.component'
     MatListModule,
     MatIconModule,
     MatButtonModule,
-    MatTooltipModule
+    MatTooltipModule,
+    CommonModule
   ],
   templateUrl: './modal-users.component.html',
   styleUrl: './modal-users.component.scss'
 })
-export class ModalUsersComponent implements OnInit {
-  public listUsers: Array<any> = [];
+export class ModalUsersComponent {
+  public listUsers$: Observable<Array<any>> = this.userStore.select(getUsersList); // FIX
 
   readonly dialogRef = inject(MatDialogRef<ModalUsersComponent>);
 
   constructor(
     public dialog: MatDialog,
-    private localStorage: LocalStorageService<any>
+    private userStore: Store<UsersStore>
   ) { }
 
-  public ngOnInit(): void {
-    this.listUsers = this.localStorage.getItem('listUsers');
-  }
-
-  public registerNewUserModal(id: string) {
+  public registerNewUserModal(user?: any) { //fix
+    console.log(user);
     const dialogRegister = this.dialog.open(ModalRegisterUserComponent, {
       minWidth: '600px',
-      data: { id }
+      data: { ...user }
     });
 
     dialogRegister.afterClosed().subscribe(result => {
       if (result) {
-
-        if(id.length === 0) {
-          // Pega a lista de usuários do localStorage ou inicializa com um array vazio
-          const listUsers = this.localStorage.getItem('listUsers') || [];
-
-          // Verifica se a lista é um array válido
-          const updatedUsers = Array.isArray(listUsers) ? [...listUsers, {
-            id: result.id,
-            name: result.name,
-            role: result.role
-          }] : [{
-            id: result.id,
-            name: result.name,
-            role: result.role
-          }];
-
-          // Atualiza o localStorage com a nova lista
-          this.localStorage.setItem('listUsers', updatedUsers);
-          this.listUsers = updatedUsers;
+        const { name, role, id } = result;
+        if(!user) {
+          this.userStore.dispatch(
+            registerNewUser({
+              user: {
+                id,
+                name,
+                role
+              }
+            } as any)
+          )
         }
         else {
-          const listUsers = this.localStorage.getItem('listUsers');
-          const updatedList = listUsers.map((user: any) => {
-            if(user.id === id) {
-              return {
-                ...user,
-                name: result.name,
-                role: result.role
-              }
+          this.userStore.dispatch(editUser({
+            user: {
+              id,
+              name,
+              role
             }
-            return user;
-          });
-          this.localStorage.setItem('listUsers', updatedList);
+          } as any))
         }
       }
       this.dialogRef.close();
@@ -94,17 +84,13 @@ export class ModalUsersComponent implements OnInit {
 
 
   public deleteUser(id: string): void {
-    // After implements request or similar to delete user, and verify if selected user if admin to possibility delete.
     const dialogRef = this.dialog.open(ModalConfirmComponent, {
       minWidth: '300px'
     })
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        const listUsers = this.localStorage.getItem('listUsers');
-        const updatedListUsers = listUsers.filter((user: any) => user.id !== id)
-        this.localStorage.setItem('listUsers', updatedListUsers);
-        this.listUsers = updatedListUsers;
+        this.userStore.dispatch(deleteUser({ id }));
       }
 
       this.dialogRef.close();
