@@ -1,0 +1,88 @@
+<div class="content-modal-confirm">
+  <div matDialogTitle class="title">
+    <h1>Register Task</h1>
+  </div>
+  <mat-dialog-content>
+    <form [formGroup]="form" class="contentForm">
+      <div style="display: flex; flex-direction: row; gap: 10px;">
+        <mat-form-field>
+          <mat-label>Title</mat-label>
+          <input matInput formControlName="title" />
+          @if (form.controls['title'].hasError('required') && form.controls['title'].touched) {
+            <mat-error>
+              Title is required
+            </mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Description</mat-label>
+          <input matInput formControlName="description" />
+          @if (form.controls['description'].hasError('required') && form.controls['description'].touched) {
+            <mat-error>
+              Title is required
+            </mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <div style="display: flex; flex-direction: row; gap: 10px;">
+        <mat-form-field>
+          <mat-label>Created Date</mat-label>
+          <input matInput [matDatepicker]="createdDate" formControlName="createdDate">
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="createdDate"></mat-datepicker-toggle>
+          <mat-datepicker #createdDate></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Expiration Date</mat-label>
+          <input matInput [matDatepicker]="expirationDate" formControlName="expirationDate">
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="expirationDate"></mat-datepicker-toggle>
+          <mat-datepicker #expirationDate></mat-datepicker>
+          @if (form.controls['expirationDate'].hasError('required') && form.controls['expirationDate'].touched) {
+            <mat-error>
+              Expiration Date is required
+            </mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <div style="display: flex; flex-direction: row; gap: 10px;">
+        <mat-form-field>
+          <mat-label>Status</mat-label>
+          <mat-select formControlName="status">
+            <mat-option value="0">Pendent</mat-option>
+            <mat-option value="1">In Progress</mat-option>
+            <mat-option value="2">Completed</mat-option>
+          </mat-select>
+          @if (form.controls['status'].hasError('required') && form.controls['status'].touched) {
+            <mat-error>
+              Status is required
+            </mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>User</mat-label>
+          <mat-select formControlName="user" placeholder="Select User">
+            @for (item of listUsers; track $index) {
+              <mat-option [value]="item">{{item.name}}</mat-option>
+            }
+          </mat-select>
+          @if (form.controls['user'].hasError('required') && form.controls['user'].touched) {
+            <mat-error>
+              User is required
+            </mat-error>
+          }
+        </mat-form-field>
+      </div>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button color="warn" (click)="onNoClick()">Cancel</button>
+    <button mat-button cdkFocusInitial color="primary" (click)="confirm()">Register</button>
+  </mat-dialog-actions>
+</div>
