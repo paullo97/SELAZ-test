@@ -48,4 +48,19 @@ export class LocalStorageService<T> {
         this.setItem(key, updatedList as T);
       }
     }
+
+     /**
+   * Adiciona um item a uma lista armazenada no localStorage.
+   * @param key Chave do localStorage onde a lista está armazenada.
+   * @param item Item a ser adicionado à lista.
+   */
+  addItemToArray(key: string, item: any): void {
+    const list = this.getItem(key) as T[];
+
+    // Se a lista não existir, cria uma nova lista
+    const updatedList = Array.isArray(list) ? [...list, item] : [item];
+
+    // Atualiza o localStorage com a nova lista
+    this.setItem(key, updatedList as T);
+  }
 }
