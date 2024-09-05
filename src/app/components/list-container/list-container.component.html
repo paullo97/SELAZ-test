@@ -54,7 +54,7 @@
         <div class="spacer"></div>
         <div matListItemTitle>{{ item?.title || '' }} - {{ item?.description }}</div>
         <div matListItemLine>Responsable: {{ item?.user?.name || '' }} | Role: {{ item?.user?.role || '' }}</div>
-        <div matListItemLine>{{ item?.status || '' }}</div>
+        <div matListItemLine>{{ identifyStatus( item.status ) }}</div>
       </mat-list-item>
 
       <mat-divider />

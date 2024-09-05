@@ -16,6 +16,7 @@ import { ModalCreateTaskComponent } from '../modals/modal-create-task/modal-crea
 import { MatDialog } from '@angular/material/dialog';
 import { ITask } from '../../core/model/task.model';
 import { IUser } from '../../core/model/user.model';
+import { EnumStatus } from '../../core/model/status.model';
 
 @Component({
   selector: 'app-list-container',
@@ -66,5 +67,13 @@ export class ListContainerComponent {
 
   public handleRegisterTask(newTasks: ITask) {
     this.taskStore.dispatch(registerNewTask({ task: newTasks }));
+  }
+
+  public identifyStatus(status: EnumStatus) {
+    return {
+      [EnumStatus.COMPLETED]: 'Completed',
+      [EnumStatus.INITIATED]: 'Initiated',
+      [EnumStatus.PREPARE]: 'Prepare',
+    }[status] || '';
   }
 }
