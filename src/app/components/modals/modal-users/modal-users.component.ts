@@ -48,7 +48,6 @@ export class ModalUsersComponent {
   ) { }
 
   public registerNewUserModal(user?: any) { //fix
-    console.log(user);
     const dialogRegister = this.dialog.open(ModalRegisterUserComponent, {
       minWidth: '600px',
       data: { ...user }

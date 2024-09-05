@@ -1,0 +1,15 @@
+<div>
+  <div matDialogTitle class="title">
+    <h1>Resume Task</h1>
+  </div>
+  <mat-dialog-content>
+    <p>Total of Task: {{ (resumeInfo$ | async)?.total || '0'}}</p>
+    <p>Total Completed: {{ (resumeInfo$ | async)?.completed || '0'}}</p>
+    <p>Total in Prepare: {{ (resumeInfo$ | async)?.prepare || '0'}}</p>
+    <p>Total in Initiated: {{ (resumeInfo$ | async)?.initiated || '0'}}</p>
+    <p>User with most tasks: {{ (userMostTasks$ | async)?.name || ''}}</p>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button color="warn" (click)="onNoClick()">Cancel</button>
+  </mat-dialog-actions>
+</div>

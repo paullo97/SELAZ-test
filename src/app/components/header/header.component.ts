@@ -16,6 +16,9 @@ import { CommonModule } from '@angular/common';
 import { setSelectedUser } from '../../core/store/users/users.actions';
 import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { getTaskListLeght } from '../../core/store/task/task.selectors';
+import { ModalResumeTaskComponent } from '../modals/modal-resume-task/modal-resume-task.component';
 
 @Component({
   selector: 'app-header',
@@ -28,7 +31,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatBadgeModule,
     MatToolbarModule,
     MatIconModule,
-    CommonModule
+    CommonModule,
+    MatTooltipModule
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
@@ -36,6 +40,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 export class HeaderComponent {
   public usersQtd$: Observable<any> = this.store.select(getUsersListLength);
   public selectedUser$: Observable<any> = this.store.select(getUserSelected);
+  public taskLength$: Observable<number> = this.store.select(getTaskListLeght);
 
   constructor(
     public dialog: MatDialog,
@@ -54,6 +59,12 @@ export class HeaderComponent {
           user: result
         }));
       }
+    })
+  }
+
+  public showResume() {
+    this.dialog.open(ModalResumeTaskComponent, {
+      minWidth: '600px'
     })
   }
 }

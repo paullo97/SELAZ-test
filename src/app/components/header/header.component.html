@@ -1,7 +1,10 @@
 <mat-toolbar>
   <span>SELAZ - TODO Test</span>
   <span class="spacer"></span>
-  <span style="margin-right: 30px;">User selected: {{ (selectedUser$ | async)?.name || 'Anyone Selected'}}</span>
+  <button mat-mini-fab color="warn" aria-label="Resume of Tasks" matBadge="{{ (taskLength$ | async) }}" matTooltip="Resume of Tasks" (click)="showResume()">
+    <mat-icon>check</mat-icon>
+  </button>
+  <span style="margin-right: 10px; margin-left: 30px;">User selected: {{ (selectedUser$ | async)?.name || 'Anyone Selected'}}</span>
   <button mat-mini-fab color="primary" aria-label="Open Modal with List of Users" matBadge="{{usersQtd$ | async}}" (click)="openDialogUser()">
     <mat-icon>person</mat-icon>
   </button>
