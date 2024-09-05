@@ -15,11 +15,12 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/",
+            "outputPath": "docs",
             "index": "src/index.html",
-            "browser": "src/main.ts",
+            "main": "src/main.ts",
+            "baseHref": "/selaz-test/",
             "polyfills": [
               "zone.js"
             ],
@@ -40,7 +41,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
+                  "maximumWarning": "900kb",
                   "maximumError": "1mb"
                 },
                 {
@@ -50,6 +51,7 @@
                 }
               ],
               "outputHashing": "all",
+              "baseHref": "/selaz-test/",
               "optimization": {
                 "fonts": false,
                 "scripts": true,
