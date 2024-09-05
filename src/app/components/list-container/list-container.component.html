@@ -1,9 +1,9 @@
 <div class="container">
-  <app-tools-header-list [user]="selectUser" (register)="handleRegisterTask($event)"></app-tools-header-list>
+  <app-tools-header-list [user]="(selectedUser$ | async)" (register)="handleRegisterTask($event)"></app-tools-header-list>
 
   <div>
     <mat-list role="list" class="container-list">
-      @for (item of task; track item) {
+      @for (item of (listTask$ | async); track item) {
       <mat-list-item
         style="display: flex; flex-direction: row-reverse; flex-wrap: nowrap"
       >
@@ -21,7 +21,7 @@
             color="primary"
             matListItemIcon
             style="color: green; cursor: pointer"
-            (click)="handleCompleteTask(item.id)"
+            (click)="handleCompleteTask(item.id, true)"
           >
             check
           </mat-icon>
@@ -33,6 +33,7 @@
             color="primary"
             matListItemIcon
             style="color: green; cursor: pointer"
+            (click)="handleCompleteTask(item.id, false)"
           >
             arrow_forward
           </mat-icon>
@@ -44,16 +45,16 @@
             matTooltip="Edit Task"
             color="accent"
             style="color: #3f51b5; cursor: pointer"
-            (click)="handleEditTask(item.id)"
+            (click)="handleEditTask(item)"
           >
             edit
           </mat-icon>
         }
 
         <div class="spacer"></div>
-        <div matListItemTitle>{{ item.title }}</div>
-        <div matListItemLine>{{ item.user.name }} - {{ item.user.role }}</div>
-        <div matListItemLine>{{ item.status }}</div>
+        <div matListItemTitle>{{ item?.title || '' }} - {{ item?.description }}</div>
+        <div matListItemLine>Responsable: {{ item?.user?.name || '' }} | Role: {{ item?.user?.role || '' }}</div>
+        <div matListItemLine>{{ item?.status || '' }}</div>
       </mat-list-item>
 
       <mat-divider />

@@ -1,10 +1,19 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import {MatCardModule} from '@angular/material/card';
+import { Component } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import {MatListModule} from '@angular/material/list';
+import { MatListModule } from '@angular/material/list';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { LocalStorageService } from '../../core/services/local-storage.service';
 import { ToolsHeaderListComponent } from '../tools-header-list/tools-header-list.component';
+import { TaskStore } from '../../core/store/task/task.store';
+import { Store } from '@ngrx/store';
+import { getTaskList } from '../../core/store/task/task.selectors';
+import { Observable } from 'rxjs';
+import { UsersStore } from '../../core/store/users/user.store';
+import { getUserSelected } from '../../core/store/users/user.selectors';
+import { editTask, nextStepTask, registerNewTask, removeTask } from '../../core/store/task/task.actions';
+import { CommonModule } from '@angular/common';
+import { ModalCreateTaskComponent } from '../modals/modal-create-task/modal-create-task.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-list-container',
@@ -14,89 +23,77 @@ import { ToolsHeaderListComponent } from '../tools-header-list/tools-header-list
     MatListModule,
     MatIconModule,
     MatTooltipModule,
-    ToolsHeaderListComponent
+    ToolsHeaderListComponent,
+    CommonModule
   ],
   templateUrl: './list-container.component.html',
   styleUrl: './list-container.component.scss'
 })
-export class ListContainerComponent implements OnInit {
-   public task: Array<any> = [
-    {
-      id: '',
-      titulo: 'teste2',
-      descricao: '',
-      dataCriacao: '',
-      dataVencimento: '',
-      status: 1,
-      responsavel: 'Admin'
-    },
-    {
-      id: '',
-      titulo: 'teste3',
-      descricao: '',
-      dataCriacao: '',
-      dataVencimento: '',
-      status: 0,
-      responsavel: 'Admin'
-    },
-    {
-      id: '',
-      titulo: 'teste4',
-      descricao: '',
-      dataCriacao: '',
-      dataVencimento: '',
-      status: 2,
-      responsavel: 'Admin'
-    }
-   ];
-   public selectUser: any = {};
+export class ListContainerComponent {
+  public listTask$: Observable<Array<any>> = this.taskStore.select(getTaskList);
+  public selectedUser$: Observable<any> = this.userStore.select(getUserSelected);
 
-  constructor(private readonly localStorage: LocalStorageService<any>)
-   { }
+  // public task: Array<any> = [
+  //   {
+  //     id: '',
+  //     titulo: 'teste2',
+  //     descricao: '',
+  //     dataCriacao: '',
+  //     dataVencimento: '',
+  //     status: 1,
+  //     responsavel: 'Admin'
+  //   },
+  //   {
+  //     id: '',
+  //     titulo: 'teste3',
+  //     descricao: '',
+  //     dataCriacao: '',
+  //     dataVencimento: '',
+  //     status: 0,
+  //     responsavel: 'Admin'
+  //   },
+  //   {
+  //     id: '',
+  //     titulo: 'teste4',
+  //     descricao: '',
+  //     dataCriacao: '',
+  //     dataVencimento: '',
+  //     status: 2,
+  //     responsavel: 'Admin'
+  //   }
+  // ];
+  // public selectUser: any = {};
 
-  public ngOnInit(): void {
-    this.task = this.localStorage.getItem('listTask');
-    this.selectUser = this.localStorage.getItem('selectUser');
+  constructor(
+    private readonly taskStore: Store<TaskStore>,
+    private readonly userStore: Store<UsersStore>,
+    public dialog: MatDialog
+  ) { }
+
+  public handleCompleteTask(idTask: string, complete: boolean): void {
+    this.taskStore.dispatch(nextStepTask({ idTask, complete }));
   }
 
-   public handleCompleteTask(idTask: string): void {
-    console.log('handleCompleteTask', idTask);
-
-    const list = this.localStorage.getItem('listTask');
-
-    const updateList = list.map((task: any) => {
-      if(task.id !== idTask) return task;
-
-      return {
-        ...task,
-        status: 2 // FIX ME - Change to use ENUM
+  public handleEditTask(task: any): void {
+    const dialogEdit = this.dialog.open(ModalCreateTaskComponent, {
+      minHeight: '60vh',
+      data: {
+        task
       }
     });
 
-    this.localStorage.setItem('listTask', updateList);
-    this.task = updateList;
-   }
+    dialogEdit.afterClosed().subscribe((result) => {
+      if(result) {
+        this.taskStore.dispatch(editTask({ task: result }))
+      }
+    })
+  }
 
-   public handleEditTask(idTask: string): void {
-    console.log('handleEditTask', idTask);
+  public handleDeleteTask(idTask: string): void {
+    this.taskStore.dispatch(removeTask({ idTask }));
+  }
 
-   }
-
-   public handleDeleteTask(idTask: string): void {
-    console.log('handleDeleteTask', idTask);
-
-    console.log(this.selectUser);
-    if(this.selectUser.role !== "admin") { // Change to ENUM
-      console.log('Não é possivel deletar sem ser o Admin');
-      return;
-    }
-
-    this.localStorage.removeItemArray('listTask', idTask);
-   }
-
-   public handleRegisterTask(newTasks: any) {
-    // TODO: Implements method to register new tasks
-    this.localStorage.addItemToArray('listTask', newTasks); // FIX Later, change to Enum
-    this.task = this.localStorage.getItem('listTask');
-   }
+  public handleRegisterTask(newTasks: any) {
+    this.taskStore.dispatch(registerNewTask({ task: newTasks }));
+  }
 }
