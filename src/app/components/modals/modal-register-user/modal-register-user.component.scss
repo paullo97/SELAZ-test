@@ -2,4 +2,14 @@
   padding: 20px;
   display: flex;
   flex-direction: column;
+
+  mat-form-field {
+    width: 100%;
+    ::ng-deep {
+      .mat-mdc-text-field-wrapper {
+        background-color: #f0f0f0;
+        border-radius: 10px;
+      }
+    }
+  }
 }

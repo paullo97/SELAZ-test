@@ -4,7 +4,7 @@
   </div>
   <mat-dialog-content>
     <form [formGroup]="form" class="contentForm">
-      <div style="display: flex; flex-direction: row; gap: 10px;">
+      <Row>
         <mat-form-field>
           <mat-label>Title</mat-label>
           <input matInput formControlName="title" />
@@ -24,9 +24,9 @@
             </mat-error>
           }
         </mat-form-field>
-      </div>
+      </Row>
 
-      <div style="display: flex; flex-direction: row; gap: 10px;">
+      <Row>
         <mat-form-field>
           <mat-label>Created Date</mat-label>
           <input matInput [matDatepicker]="createdDate" formControlName="createdDate">
@@ -47,9 +47,9 @@
             </mat-error>
           }
         </mat-form-field>
-      </div>
+      </Row>
 
-      <div style="display: flex; flex-direction: row; gap: 10px;">
+      <Row>
         <mat-form-field>
           <mat-label>Status</mat-label>
           <mat-select formControlName="status">
@@ -77,7 +77,7 @@
             </mat-error>
           }
         </mat-form-field>
-      </div>
+      </Row>
     </form>
   </mat-dialog-content>
 

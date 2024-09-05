@@ -1,15 +1,15 @@
 <div class="header-list">
-  <button mat-raised-button color="primary" (click)="showModalRegisterTask()">Add Task</button>
-  <mat-form-field>
-    <mat-label>Filter</mat-label>
-    <mat-select (valueChange)="changeFilter($event)">
-      <mat-option value="all">All</mat-option>
-      <mat-option value="completed">Completed</mat-option>
-      <mat-option value="prepare">Prepare</mat-option>
-      <mat-option value="initiated">Initiated</mat-option>
-      @if ((selectedUser$ | async)) {
-        <mat-option value="byUser">By User Selected</mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
+  <app-button (click)="showModalRegisterTask()">Add Task</app-button>
+  <app-select
+  [label]="'Filter'"
+  [options]="[
+    { value: 'all', label: 'All' },
+    { value: 'completed', label: 'Completed' },
+    { value: 'prepare', label: 'Prepare' },
+    { value: 'initiated', label: 'Initiated' }
+  ]"
+  [showUserOption]="!(selectedUser$ | async)"
+  (valueChange)="changeFilter($event)">
+</app-select>
+
 </div>
