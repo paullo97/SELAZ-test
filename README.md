@@ -16,11 +16,18 @@ While the project implements core functionalities, there are a few additional fe
 
 - **Graphs for Task Tracking 📊**: Integration with `ngx-charts` to visualize task progress and completion statistics.
 - **Role-Based Action Restrictions 🔒**: Implement role-based access control (RBAC) to restrict actions (e.g., editing or deleting tasks) based on the user's role (ADMIN or USER).
-- **Deploy to GitHub Pages 🚀**: Setup automated deployment to GitHub Pages for easier sharing and showcasing of the project.
+- ~~**Deploy to GitHub Pages 🚀**: Setup automated deployment to GitHub Pages for easier sharing and showcasing of the project.~~ **Implemented**: The project is now available at [https://paullo97.github.io/SELAZ-test/](https://paullo97.github.io/SELAZ-test/)
 - **Action History 📝**: Implement a history log to track which user deleted, modified, or updated a task, providing better accountability and traceability.
 
 These features remain a priority for future development and will enhance the user experience by providing better insights, security, accessibility, and accountability.
 
+## Access the Project 🌐
+
+If you prefer not to download and run the project locally, you can view the live application hosted on GitHub Pages. Simply visit the following link:
+
+[https://paullo97.github.io/SELAZ-test/](https://paullo97.github.io/SELAZ-test/)
+
+Feel free to explore the project and see it in action!
 
 ## Prerequisites 🔧
 
@@ -35,6 +42,7 @@ To run this project, you'll need to have the following installed:
 
 ## Getting Started 🚀
 
+If you dont wanna
 Follow these steps to get a copy of the project up and running on your local machine:
 
 1. Clone the Repository
