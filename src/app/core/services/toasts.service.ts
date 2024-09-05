@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarDismiss, MatSnackBarRef } from '@angular/material/snack-bar';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -47,6 +48,35 @@ export class ToastService {
       panelClass: ['success-snackbar'],
       // Spread the position object into the snackbar options
       ...this.position
+    });
+  }
+
+  // This function shows a confirmation message using a snackbar and returns an Observable<boolean>
+  showConfirmation(message: string): Observable<boolean> {
+    // Create a new Observable<boolean>
+    return new Observable<boolean>((observer) => {
+      // Open a snackbar with the given message and 'Yes' action button
+      const snackBarRef: MatSnackBarRef<any> = this.snackBar.open(message, 'Yes', {
+        duration: 0, // Snackbar will stay open until user interacts
+        panelClass: ['confirmation-snackbar'],
+        ...this.position
+      });
+
+      // Listen for the action button click
+      snackBarRef.onAction().subscribe(() => {
+        // If the action button is clicked, emit true and complete the Observable
+        observer.next(true);
+        observer.complete();
+      });
+
+      // Listen for the dismiss action
+      snackBarRef.afterDismissed().subscribe((dismiss: MatSnackBarDismiss) => {
+        // If the snackbar is dismissed without clicking the action button, emit false and complete the Observable
+        if (!dismiss.dismissedByAction) {
+          observer.next(false);
+        }
+        observer.complete();
+      });
     });
   }
 }
