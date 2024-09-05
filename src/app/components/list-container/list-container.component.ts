@@ -17,6 +17,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ITask } from '../../core/model/task.model';
 import { IUser } from '../../core/model/user.model';
 import { EnumStatus } from '../../core/model/status.model';
+import { ToastService } from '../../core/services/toasts.service';
 
 @Component({
   selector: 'app-list-container',
@@ -42,6 +43,7 @@ export class ListContainerComponent {
     // Injecting the task store and user store
     private readonly taskStore: Store<TaskStore>,
     private readonly userStore: Store<UsersStore>,
+    private readonly toasts: ToastService,
     public dialog: MatDialog
   ) { }
 
@@ -72,8 +74,14 @@ export class ListContainerComponent {
 
   // Method to handle the deletion of a task
   public handleDeleteTask(idTask: string): void {
-    // Dispatching the removeTask action to the store
-    this.taskStore.dispatch(removeTask({ idTask }));
+
+    const toastDelete = this.toasts.showConfirmation('Are you sure you want to delete this item?').subscribe((confirm) => {
+      if(confirm) {
+        // Dispatching the removeTask action to the store
+        this.taskStore.dispatch(removeTask({ idTask }));
+        toastDelete.unsubscribe();
+      }
+    })
   }
 
   // Method to handle the registration of a new task
