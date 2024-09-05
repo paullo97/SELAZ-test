@@ -28,8 +28,11 @@ export class AppComponent implements OnInit {
   )
   { }
 
+  // This function is called when the component is initialized
   public ngOnInit(): void {
+    // Subscribe to the usersListLenght$ observable
     this.usersListLenght$.subscribe((length: number) => {
+      // If the length of the users list is 0, show a toast message
       if(length === 0) {
         this.toasts.showToast('You no Have Registered Users, please register one user, and after register Tasks', 'OK', 5000);
       }
