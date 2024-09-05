@@ -67,7 +67,7 @@
         <mat-form-field>
           <mat-label>User</mat-label>
           <mat-select formControlName="user" placeholder="Select User">
-            @for (item of listUsers; track $index) {
+            @for (item of (listUsers$ | async); track $index) {
               <mat-option [value]="item">{{item.name}}</mat-option>
             }
           </mat-select>

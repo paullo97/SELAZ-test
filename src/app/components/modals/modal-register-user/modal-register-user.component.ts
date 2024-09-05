@@ -31,8 +31,7 @@ export class ModalRegisterUserComponent implements OnInit {
   { }
 
   public ngOnInit(): void {
-    console.log(this.data);
-    if(this.data.id.length > 0) {
+    if(this.data) {
       const { name, role, id } = this.data;
       this.name = name;
       this.role = role;
