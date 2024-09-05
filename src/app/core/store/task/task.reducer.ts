@@ -2,6 +2,7 @@ import { Action, ActionReducer, createReducer, on } from '@ngrx/store';
 import { TaskStore } from './task.store';
 import { changeFilter, editTask, nextStepTask, registerNewTask, removeTask } from './task.actions';
 import { Statement } from '@angular/compiler';
+import { EnumStatus } from '../../model/status.model';
 
 export const initialState: Partial<TaskStore> = {
     tasks: [],
@@ -32,12 +33,20 @@ const reducer: ActionReducer<Partial<TaskStore>, Action> = createReducer(
   on(nextStepTask, (state, action) => ({
     ...state,
     tasks: state.tasks?.map((task) => {
-      if(task.id !== action.idTask) return task;
+      if (task.id !== action.idTask) return task;
+
+      const statusArray = Object.values(EnumStatus);  // ['0', '1', '2']
+      const currentIndex = statusArray.indexOf(task.status);
+
+      // Determinar o próximo status com base no índice atual
+      const nextStatus = action.complete
+        ? EnumStatus.COMPLETED
+        : statusArray[currentIndex + 1] || EnumStatus.COMPLETED;  // Avançar para o próximo ou marcar como completo
 
       return {
         ...task,
-        status: action.complete ? '2' : (parseInt(task.status) + 1).toString()
-      }
+        status: nextStatus
+      };
     })
   })),
   on(changeFilter, (state, action) => ({

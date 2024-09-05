@@ -1,22 +1,14 @@
 import { Action, ActionReducer, createReducer, on } from '@ngrx/store';
 import { UsersStore } from './user.store';
-import { deleteUser, editUser, loadUsers, loadUsersSuccess, registerNewUser, setSelectedUser } from './users.actions';
+import { deleteUser, editUser, registerNewUser, setSelectedUser } from './users.actions';
+import { IUser } from '../../model/user.model';
 
 export const initialState: Partial<UsersStore> = {
     users: [],
-    loading: true
 };
 
 const reducer: ActionReducer<Partial<UsersStore>, Action> = createReducer(
     initialState,
-    on(loadUsers, (state) => ({
-        ...state,
-        loading: true
-    })),
-    on(loadUsersSuccess, (state) => ({
-        ...state,
-        loading: false
-    })),
     on(setSelectedUser, (state, action) => ({
       ...state,
       selectedUser: action.user
@@ -36,12 +28,12 @@ const reducer: ActionReducer<Partial<UsersStore>, Action> = createReducer(
           role: action.user.role
         }
       }),
-      selectedUser: state.selectedUser.id === action.user.id ? { ...action.user} : state.selectedUser
+      selectedUser: state.selectedUser ? state.selectedUser.id === action.user.id ? { ...action.user} : state.selectedUser : undefined
     })),
     on(deleteUser, (state, action) => ({
       ...state,
-      users: state.users?.filter((user: any) => user.id !== action.id),
-      selectedUser: state.selectedUser.id === action.id ? null : state.selectedUser
+      users: state.users?.filter((user: IUser) => user.id !== action.id),
+      selectedUser: state.selectedUser ? state.selectedUser.id === action.id ? undefined : state.selectedUser : undefined
     }))
 );
 

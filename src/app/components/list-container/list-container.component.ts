@@ -14,6 +14,8 @@ import { editTask, nextStepTask, registerNewTask, removeTask } from '../../core/
 import { CommonModule } from '@angular/common';
 import { ModalCreateTaskComponent } from '../modals/modal-create-task/modal-create-task.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ITask } from '../../core/model/task.model';
+import { IUser } from '../../core/model/user.model';
 
 @Component({
   selector: 'app-list-container',
@@ -30,39 +32,8 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrl: './list-container.component.scss'
 })
 export class ListContainerComponent {
-  public listTask$: Observable<Array<any>> = this.taskStore.select(getTaskList);
-  public selectedUser$: Observable<any> = this.userStore.select(getUserSelected);
-
-  // public task: Array<any> = [
-  //   {
-  //     id: '',
-  //     titulo: 'teste2',
-  //     descricao: '',
-  //     dataCriacao: '',
-  //     dataVencimento: '',
-  //     status: 1,
-  //     responsavel: 'Admin'
-  //   },
-  //   {
-  //     id: '',
-  //     titulo: 'teste3',
-  //     descricao: '',
-  //     dataCriacao: '',
-  //     dataVencimento: '',
-  //     status: 0,
-  //     responsavel: 'Admin'
-  //   },
-  //   {
-  //     id: '',
-  //     titulo: 'teste4',
-  //     descricao: '',
-  //     dataCriacao: '',
-  //     dataVencimento: '',
-  //     status: 2,
-  //     responsavel: 'Admin'
-  //   }
-  // ];
-  // public selectUser: any = {};
+  public listTask$: Observable<Array<ITask>> = this.taskStore.select(getTaskList);
+  public selectedUser$: Observable<IUser> = this.userStore.select(getUserSelected);
 
   constructor(
     private readonly taskStore: Store<TaskStore>,
@@ -74,7 +45,7 @@ export class ListContainerComponent {
     this.taskStore.dispatch(nextStepTask({ idTask, complete }));
   }
 
-  public handleEditTask(task: any): void {
+  public handleEditTask(task: ITask): void {
     const dialogEdit = this.dialog.open(ModalCreateTaskComponent, {
       minHeight: '60vh',
       data: {
@@ -93,7 +64,7 @@ export class ListContainerComponent {
     this.taskStore.dispatch(removeTask({ idTask }));
   }
 
-  public handleRegisterTask(newTasks: any) {
+  public handleRegisterTask(newTasks: ITask) {
     this.taskStore.dispatch(registerNewTask({ task: newTasks }));
   }
 }

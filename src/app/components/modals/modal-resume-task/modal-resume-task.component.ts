@@ -6,6 +6,8 @@ import { TaskStore } from '../../../core/store/task/task.store';
 import { getInfoResume, getUserWithMostTasks } from '../../../core/store/task/task.selectors';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { IResume } from '../../../core/model/resume.model';
+import { IUser } from '../../../core/model/user.model';
 
 @Component({
   selector: 'app-modal-resume-task',
@@ -25,8 +27,8 @@ import { CommonModule } from '@angular/common';
 export class ModalResumeTaskComponent {
   readonly dialogRef = inject(MatDialogRef<ModalResumeTaskComponent>);
 
-  public resumeInfo$: Observable<any> = this.taskStore.select(getInfoResume);
-  public userMostTasks$: Observable<any> = this.taskStore.select(getUserWithMostTasks);
+  public resumeInfo$: Observable<IResume> = this.taskStore.select(getInfoResume);
+  public userMostTasks$: Observable<IUser | null> = this.taskStore.select(getUserWithMostTasks);
 
   constructor(private readonly taskStore: Store<TaskStore>)
   { }

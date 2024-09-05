@@ -19,6 +19,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { getTaskListLeght } from '../../core/store/task/task.selectors';
 import { ModalResumeTaskComponent } from '../modals/modal-resume-task/modal-resume-task.component';
+import { IUser } from '../../core/model/user.model';
 
 @Component({
   selector: 'app-header',
@@ -38,8 +39,8 @@ import { ModalResumeTaskComponent } from '../modals/modal-resume-task/modal-resu
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
-  public usersQtd$: Observable<any> = this.store.select(getUsersListLength);
-  public selectedUser$: Observable<any> = this.store.select(getUserSelected);
+  public usersQtd$: Observable<number> = this.store.select(getUsersListLength);
+  public selectedUser$: Observable<IUser> = this.store.select(getUserSelected);
   public taskLength$: Observable<number> = this.store.select(getTaskListLeght);
 
   constructor(

@@ -10,6 +10,7 @@ import {
 } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { UuidService } from '../../../core/services/uuid.service';
+import { IUser } from '../../../core/model/user.model';
 @Component({
   selector: 'app-modal-register-user',
   standalone: true,
@@ -40,7 +41,7 @@ export class ModalRegisterUserComponent implements OnInit {
   }
 
   readonly dialogRef = inject(MatDialogRef<ModalRegisterUserComponent>);
-  readonly data = inject<{ id: string, name: string, role: string}>(MAT_DIALOG_DATA);
+  readonly data = inject<IUser>(MAT_DIALOG_DATA);
 
   public name: string = '';
   public role: string = '';

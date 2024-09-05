@@ -15,6 +15,8 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { getUsersList } from '../../../core/store/users/user.selectors';
 import { CommonModule } from '@angular/common';
+import { IUser } from '../../../core/model/user.model';
+import { ITask } from '../../../core/model/task.model';
 
 const MY_DATE_FORMATS = {
   parse: {
@@ -56,17 +58,15 @@ const MY_DATE_FORMATS = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ModalCreateTaskComponent implements OnInit {
-  public listUsers$: Observable<Array<any>> = this.userStore.select(getUsersList);
+  public listUsers$: Observable<Array<IUser>> = this.userStore.select(getUsersList);
 
   readonly dialogRef = inject(MatDialogRef<ModalCreateTaskComponent>);
   readonly data = inject<any>(MAT_DIALOG_DATA);
 
   public form: FormGroup;
-  public listUsers: Array<any> = [];
 
   constructor(
     private fb: FormBuilder,
-    private readonly localStorage: LocalStorageService<any>, //FIX Me Later,
     private readonly uuid: UuidService,
     private readonly userStore: Store<UsersStore>,
     private ref: ChangeDetectorRef
@@ -84,8 +84,6 @@ export class ModalCreateTaskComponent implements OnInit {
 
     this.form.controls['createdDate'].setValue(today)
     this.form.controls['createdDate'].disable();
-
-    this.listUsers = this.localStorage.getItem('listUsers'); //Call Enum
   }
 
   public ngOnInit(): void {

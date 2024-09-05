@@ -1,17 +1,18 @@
 import { createAction, props } from '@ngrx/store';
 import { storeTag } from './task.store';
+import { ITask } from '../../model/task.model';
 
 export const registerNewTask = createAction(
   `${storeTag} Register New Task`,
   props<{
-    task: any; // fix
+    task: ITask;
   }>()
 );
 
 export const editTask = createAction(
   `${storeTag} Edit Task`,
   props<{
-    task: any
+    task: ITask
   }>()
 );
 

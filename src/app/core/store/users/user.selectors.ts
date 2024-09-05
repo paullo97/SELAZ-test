@@ -3,11 +3,6 @@ import { UsersStore } from './user.store';
 
 export const getUsersState = createFeatureSelector<UsersStore>('users');
 
-export const getUsersLoading = createSelector(
-    getUsersState,
-    (store: UsersStore) => store.loading
-);
-
 export const getUsersList = createSelector(
   getUsersState,
   (store: UsersStore) => store.users

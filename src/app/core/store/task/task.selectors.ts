@@ -2,6 +2,8 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { TaskStore } from './task.store';
 import { getUserSelected } from '../users/user.selectors';
 import { getUsersState } from '../users/user.selectors';
+import { EnumStatus } from '../../model/status.model';
+import { ITask } from '../../model/task.model';
 
 const getTaskState = createFeatureSelector<TaskStore>('task');
 
@@ -13,13 +15,13 @@ export const getTaskList = createSelector(
       return store.tasks;
     }
     else if(store.filter === 'completed') {
-      return store.tasks.filter((task) => task.status === '2')
+      return store.tasks.filter((task) => task.status === EnumStatus.COMPLETED)
     }
     else if(store.filter === 'prepare') {
-      return store.tasks.filter((task) => task.status === '0')
+      return store.tasks.filter((task) => task.status === EnumStatus.PREPARE)
     }
     else if(store.filter === 'initiated') {
-      return store.tasks.filter((task) => task.status === '1')
+      return store.tasks.filter((task) => task.status === EnumStatus.INITIATED)
     }
 
     return store.tasks.filter((task) => task.user.id === selectedUser.id);
@@ -37,9 +39,9 @@ export const getInfoResume = createSelector(
 
     return {
       total: store.tasks.length,
-      prepare: store.tasks.filter((task: any) => task.status === '0').length,
-      initiated: store.tasks.filter((task: any) => task.status === '1').length,
-      completed: store.tasks.filter((task: any) => task.status === '2').length,
+      prepare: store.tasks.filter((task: ITask) => task.status === EnumStatus.PREPARE).length,
+      initiated: store.tasks.filter((task: ITask) => task.status === EnumStatus.INITIATED).length,
+      completed: store.tasks.filter((task: ITask) => task.status === EnumStatus.COMPLETED).length,
     }
   }
 );

@@ -18,6 +18,8 @@ import { getUserSelected, getUsersListLength } from '../../core/store/users/user
 import { ToastService } from '../../core/services/toasts.service';
 import { TaskStore } from '../../core/store/task/task.store';
 import { changeFilter } from '../../core/store/task/task.actions';
+import { IUser } from '../../core/model/user.model';
+import { ITask } from '../../core/model/task.model';
 
 @Component({
   selector: 'app-tools-header-list',
@@ -41,13 +43,13 @@ import { changeFilter } from '../../core/store/task/task.actions';
 })
 export class ToolsHeaderListComponent implements OnInit{
   public userListLength$: Observable<number> = this.userStore.select(getUsersListLength);
-  public selectedUser$: Observable<any> = this.userStore.select(getUserSelected);
+  public selectedUser$: Observable<IUser> = this.userStore.select(getUserSelected);
 
   @Input()
-  public user: any; // FIX After
+  public user: IUser | null | undefined ; // FIX After
 
   @Output()
-  public register: EventEmitter<any> = new EventEmitter();
+  public register: EventEmitter<ITask> = new EventEmitter();
 
   public userListLength: number = 0;
   public filter: string = 'all';
@@ -76,7 +78,7 @@ export class ToolsHeaderListComponent implements OnInit{
       minHeight: '60vh',
     });
 
-    dialogRegisterTask.afterClosed().subscribe((result: any) => {
+    dialogRegisterTask.afterClosed().subscribe((result: ITask) => {
       if(result) {
         this.register.emit(result);
       }

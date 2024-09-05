@@ -19,6 +19,7 @@ import { getUsersList } from '../../../core/store/users/user.selectors';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { deleteUser, editUser, registerNewUser } from '../../../core/store/users/users.actions';
+import { IUser } from '../../../core/model/user.model';
 
 @Component({
   selector: 'app-modal-users',
@@ -38,7 +39,7 @@ import { deleteUser, editUser, registerNewUser } from '../../../core/store/users
   styleUrl: './modal-users.component.scss'
 })
 export class ModalUsersComponent {
-  public listUsers$: Observable<Array<any>> = this.userStore.select(getUsersList); // FIX
+  public listUsers$: Observable<Array<IUser>> = this.userStore.select(getUsersList); // FIX
 
   readonly dialogRef = inject(MatDialogRef<ModalUsersComponent>);
 
@@ -47,7 +48,7 @@ export class ModalUsersComponent {
     private userStore: Store<UsersStore>
   ) { }
 
-  public registerNewUserModal(user?: any) { //fix
+  public registerNewUserModal(user?: IUser) { //fix
     const dialogRegister = this.dialog.open(ModalRegisterUserComponent, {
       minWidth: '600px',
       data: { ...user }
@@ -64,7 +65,7 @@ export class ModalUsersComponent {
                 name,
                 role
               }
-            } as any)
+            })
           )
         }
         else {
@@ -74,7 +75,7 @@ export class ModalUsersComponent {
               name,
               role
             }
-          } as any))
+          }))
         }
       }
     });
@@ -96,7 +97,7 @@ export class ModalUsersComponent {
 
   }
 
-  public selectUser(user: any) {
+  public selectUser(user: IUser) {
     const dialogRef = this.dialog.open(ModalConfirmComponent, {
       minWidth: '300px'
     })
