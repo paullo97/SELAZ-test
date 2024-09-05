@@ -17,9 +17,9 @@ While the project implements core functionalities, there are a few additional fe
 - **Graphs for Task Tracking 📊**: Integration with `ngx-charts` to visualize task progress and completion statistics.
 - **Role-Based Action Restrictions 🔒**: Implement role-based access control (RBAC) to restrict actions (e.g., editing or deleting tasks) based on the user's role (ADMIN or USER).
 - **Deploy to GitHub Pages 🚀**: Setup automated deployment to GitHub Pages for easier sharing and showcasing of the project.
+- **Action History 📝**: Implement a history log to track which user deleted, modified, or updated a task, providing better accountability and traceability.
 
-These features remain a priority for future development and will enhance the user experience by providing better insights, security, and accessibility.
-
+These features remain a priority for future development and will enhance the user experience by providing better insights, security, accessibility, and accountability.
 
 
 ## Prerequisites 🔧
@@ -100,4 +100,4 @@ Feel free to contribute to the project by submitting issues or pull requests. Pl
 
 ## Contact 📧
 
-For any questions or inquiries, please contact paullo97@example.com.
+For any questions or inquiries, please contact paulo.cesar97@hotmail.com
