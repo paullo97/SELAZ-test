@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
@@ -18,6 +18,7 @@ import { ITask } from '../../core/model/task.model';
 import { IUser } from '../../core/model/user.model';
 import { EnumStatus } from '../../core/model/status.model';
 import { ToastService } from '../../core/services/toasts.service';
+import { EnumRole } from '../../core/model/role.model';
 
 @Component({
   selector: 'app-list-container',
@@ -33,11 +34,12 @@ import { ToastService } from '../../core/services/toasts.service';
   templateUrl: './list-container.component.html',
   styleUrl: './list-container.component.scss'
 })
-export class ListContainerComponent {
+export class ListContainerComponent implements OnInit {
   // Observable to get the list of tasks from the store
   public listTask$: Observable<Array<ITask>> = this.taskStore.select(getTaskList);
   // Observable to get the selected user from the store
   public selectedUser$: Observable<IUser> = this.userStore.select(getUserSelected);
+  public selectedUser: IUser | undefined;
 
   constructor(
     // Injecting the task store and user store
@@ -46,6 +48,12 @@ export class ListContainerComponent {
     private readonly toasts: ToastService,
     public dialog: MatDialog
   ) { }
+
+  public ngOnInit(): void {
+    this.selectedUser$.subscribe((user) => {
+      this.selectedUser = user;
+    });
+  }
 
   // Method to handle the completion of a task
   public handleCompleteTask(idTask: string, complete: boolean): void {
@@ -74,15 +82,26 @@ export class ListContainerComponent {
 
   // Method to handle the deletion of a task
   public handleDeleteTask(idTask: string): void {
+    if (!this.selectedUser) {
+      this.toasts.showError('No user selected');
+      return;
+    }
 
-    const toastDelete = this.toasts.showConfirmation('Are you sure you want to delete this item?').subscribe((confirm) => {
-      if(confirm) {
-        // Dispatching the removeTask action to the store
-        this.taskStore.dispatch(removeTask({ idTask }));
+    if (this.selectedUser.role !== EnumRole.ADMIN) {
+      this.toasts.showError('User is not an admin');
+      return;
+    }
+
+    const toastDelete = this.toasts.showConfirmation('Are you sure you want to delete this item?')
+      .subscribe((confirm: boolean) => {
+        if (confirm) {
+          // Dispara a ação de remover a tarefa no store
+          this.taskStore.dispatch(removeTask({ idTask }));
+        }
         toastDelete.unsubscribe();
-      }
-    })
+      });
   }
+
 
   // Method to handle the registration of a new task
   public handleRegisterTask(newTasks: ITask) {
