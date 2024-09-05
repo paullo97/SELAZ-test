@@ -2,7 +2,7 @@
   <button mat-raised-button color="primary" (click)="showModalRegisterTask()">Add Task</button>
   <mat-form-field>
     <mat-label>Filter</mat-label>
-    <mat-select>
+    <mat-select (valueChange)="changeFilter($event)">
       <mat-option value="all">All</mat-option>
       <mat-option value="completed">Completed</mat-option>
       <mat-option value="prepare">Prepare</mat-option>

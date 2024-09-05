@@ -29,3 +29,10 @@ export const nextStepTask = createAction(
     complete: boolean;
   }>()
 );
+
+export const changeFilter = createAction(
+  `${storeTag} Change Filter`,
+  props<{
+    filter: string;
+  }>()
+);

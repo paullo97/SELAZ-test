@@ -3,7 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { ModalCreateTaskComponent } from '../modals/modal-create-task/modal-create-task.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,6 +16,8 @@ import { Store } from '@ngrx/store';
 import { UsersStore } from '../../core/store/users/user.store';
 import { getUserSelected, getUsersListLength } from '../../core/store/users/user.selectors';
 import { ToastService } from '../../core/services/toasts.service';
+import { TaskStore } from '../../core/store/task/task.store';
+import { changeFilter } from '../../core/store/task/task.actions';
 
 @Component({
   selector: 'app-tools-header-list',
@@ -31,7 +33,8 @@ import { ToastService } from '../../core/services/toasts.service';
     CommonModule,
     MatSelectModule,
     MatFormFieldModule,
-    MatOptionModule
+    MatOptionModule,
+    FormsModule
   ],
   templateUrl: './tools-header-list.component.html',
   styleUrl: './tools-header-list.component.scss'
@@ -47,10 +50,12 @@ export class ToolsHeaderListComponent implements OnInit{
   public register: EventEmitter<any> = new EventEmitter();
 
   public userListLength: number = 0;
+  public filter: string = 'all';
 
   constructor(
     public dialog: MatDialog,
     private readonly userStore: Store<UsersStore>,
+    private readonly taskStore: Store<TaskStore>,
     private readonly toast: ToastService
   )
   { }
@@ -76,5 +81,11 @@ export class ToolsHeaderListComponent implements OnInit{
         this.register.emit(result);
       }
     })
+  }
+
+  public changeFilter(option: string) {
+    this.taskStore.dispatch(changeFilter({
+      filter: option
+    }));
   }
 }

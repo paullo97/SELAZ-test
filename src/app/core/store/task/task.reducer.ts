@@ -1,9 +1,11 @@
 import { Action, ActionReducer, createReducer, on } from '@ngrx/store';
 import { TaskStore } from './task.store';
-import { editTask, nextStepTask, registerNewTask, removeTask } from './task.actions';
+import { changeFilter, editTask, nextStepTask, registerNewTask, removeTask } from './task.actions';
+import { Statement } from '@angular/compiler';
 
 export const initialState: Partial<TaskStore> = {
-    tasks: []
+    tasks: [],
+    filter: 'all'
 };
 
 const reducer: ActionReducer<Partial<TaskStore>, Action> = createReducer(
@@ -37,6 +39,10 @@ const reducer: ActionReducer<Partial<TaskStore>, Action> = createReducer(
         status: action.complete ? '2' : (parseInt(task.status) + 1).toString()
       }
     })
+  })),
+  on(changeFilter, (state, action) => ({
+    ...state,
+    filter: action.filter
   }))
 );
 
