@@ -6,6 +6,11 @@ import { Injectable } from '@angular/core';
 export class LocalStorageService<T> {
   constructor() { }
 
+  /**
+   * Armazena um item no localStorage.
+   * @param key Chave do localStorage onde o item será armazenado.
+   * @param data Dados a serem armazenados.
+   */
   setItem(key: string, data: T): void {
     try {
       const serializedData = JSON.stringify(data);
@@ -15,6 +20,11 @@ export class LocalStorageService<T> {
     }
   }
 
+  /**
+   * Recupera um item do localStorage.
+   * @param key Chave do localStorage onde o item está armazenado.
+   * @returns Dados recuperados do localStorage ou null se a chave não existir.
+   */
   getItem(key: string): T | null {
     const serializedData = localStorage.getItem(key);
     if (serializedData) {
@@ -27,6 +37,10 @@ export class LocalStorageService<T> {
     return null;
   }
 
+  /**
+   * Remove um item do localStorage.
+   * @param key Chave do localStorage onde o item está armazenado.
+   */
   removeItem(key: string): void {
     localStorage.removeItem(key);
   }
