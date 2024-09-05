@@ -1,0 +1,15 @@
+<mat-form-field appearance="fill">
+  <mat-label>{{ label }}</mat-label>
+  <mat-select (valueChange)="handleChange($event)">
+    @for (option of options; track $index) {
+      <mat-option [value]="option.value">
+        {{ option.label }}
+      </mat-option>
+    }
+    @if (!showUserOption) {
+      <mat-option value="byUser">
+        By User Selected
+      </mat-option>
+    }
+  </mat-select>
+</mat-form-field>
