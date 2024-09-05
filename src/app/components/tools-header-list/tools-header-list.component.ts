@@ -20,24 +20,21 @@ import { TaskStore } from '../../core/store/task/task.store';
 import { changeFilter } from '../../core/store/task/task.actions';
 import { IUser } from '../../core/model/user.model';
 import { ITask } from '../../core/model/task.model';
+import { ButtonComponent } from "../form/button/button.component";
+import { SelectComponent } from '../form/select/select.component';
 
 @Component({
   selector: 'app-tools-header-list',
   standalone: true,
   imports: [
-    MatButtonModule,
     MatDialogModule,
     MatInputModule,
     ReactiveFormsModule,
-    MatBadgeModule,
     MatToolbarModule,
-    MatIconModule,
     CommonModule,
-    MatSelectModule,
-    MatFormFieldModule,
-    MatOptionModule,
-    FormsModule
-  ],
+    ButtonComponent,
+    SelectComponent
+],
   templateUrl: './tools-header-list.component.html',
   styleUrl: './tools-header-list.component.scss'
 })
@@ -89,7 +86,7 @@ export class ToolsHeaderListComponent implements OnInit{
 
     // Open the modal to register a task
     const dialogRegisterTask = this.dialog.open(ModalCreateTaskComponent, {
-      minHeight: '60vh',
+      minHeight: '40vh',
     });
 
     // Subscribe to the afterClosed event of the modal to emit the registered task

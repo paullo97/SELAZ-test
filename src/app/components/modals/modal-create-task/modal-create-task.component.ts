@@ -15,6 +15,8 @@ import { Observable } from 'rxjs';
 import { getUsersList } from '../../../core/store/users/user.selectors';
 import { CommonModule } from '@angular/common';
 import { IUser } from '../../../core/model/user.model';
+import { SelectComponent } from '../../form/select/select.component';
+import { RowComponent } from "../../form/row/row.component";
 
 // Define date formats
 const MY_DATE_FORMATS = {
@@ -45,8 +47,10 @@ const MY_DATE_FORMATS = {
     MatDatepickerModule,
     MatOptionModule,
     MatSelectModule,
-    CommonModule
-  ],
+    CommonModule,
+    SelectComponent,
+    RowComponent
+],
   providers: [
     provideNativeDateAdapter(),
     { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },

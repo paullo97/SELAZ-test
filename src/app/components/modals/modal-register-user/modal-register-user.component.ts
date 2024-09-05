@@ -52,7 +52,7 @@ export class ModalRegisterUserComponent implements OnInit {
   // Declaring variables to store the name, role and id of the user
   public name: string = '';
   public role: string = '';
-  protected id: string = '';
+  public id: string = '';
 
 
   // This function is used to register a new user
