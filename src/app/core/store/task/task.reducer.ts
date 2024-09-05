@@ -17,6 +17,7 @@ const reducer: ActionReducer<Partial<TaskStore>, Action> = createReducer(
     tasks: state.tasks?.map((task) => {
       if(task.id !== action.task.id) return task;
 
+      console.log(action.task);
       return {
         ...action.task
       }

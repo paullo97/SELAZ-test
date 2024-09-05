@@ -7,7 +7,7 @@
       <mat-option value="completed">Completed</mat-option>
       <mat-option value="prepare">Prepare</mat-option>
       <mat-option value="initiated">Initiated</mat-option>
-      @if (!user) {
+      @if ((selectedUser$ | async)) {
         <mat-option value="byUser">By User Selected</mat-option>
       }
     </mat-select>

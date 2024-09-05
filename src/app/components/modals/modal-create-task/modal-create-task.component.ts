@@ -111,7 +111,7 @@ export class ModalCreateTaskComponent implements OnInit {
   public confirm(): void {
     if (this.form.valid) {
       this.dialogRef.close({
-        id: this.uuid.generateUUID(),
+        id: this.data?.task?.id || this.uuid.generateUUID(),
         ...this.form.value
       });
     } else {

@@ -78,7 +78,6 @@ export class ModalUsersComponent {
           } as any))
         }
       }
-      this.dialogRef.close();
     });
   }
 
