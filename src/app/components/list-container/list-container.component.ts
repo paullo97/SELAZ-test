@@ -33,20 +33,27 @@ import { EnumStatus } from '../../core/model/status.model';
   styleUrl: './list-container.component.scss'
 })
 export class ListContainerComponent {
+  // Observable to get the list of tasks from the store
   public listTask$: Observable<Array<ITask>> = this.taskStore.select(getTaskList);
+  // Observable to get the selected user from the store
   public selectedUser$: Observable<IUser> = this.userStore.select(getUserSelected);
 
   constructor(
+    // Injecting the task store and user store
     private readonly taskStore: Store<TaskStore>,
     private readonly userStore: Store<UsersStore>,
     public dialog: MatDialog
   ) { }
 
+  // Method to handle the completion of a task
   public handleCompleteTask(idTask: string, complete: boolean): void {
+    // Dispatching the nextStepTask action to the store
     this.taskStore.dispatch(nextStepTask({ idTask, complete }));
   }
 
+  // Method to handle the editing of a task
   public handleEditTask(task: ITask): void {
+    // Opening the modal to edit the task
     const dialogEdit = this.dialog.open(ModalCreateTaskComponent, {
       minHeight: '60vh',
       data: {
@@ -54,21 +61,28 @@ export class ListContainerComponent {
       }
     });
 
+    // Subscribing to the afterClosed event of the modal
     dialogEdit.afterClosed().subscribe((result) => {
+      // If the result is not null, dispatching the editTask action to the store
       if(result) {
         this.taskStore.dispatch(editTask({ task: result }))
       }
     })
   }
 
+  // Method to handle the deletion of a task
   public handleDeleteTask(idTask: string): void {
+    // Dispatching the removeTask action to the store
     this.taskStore.dispatch(removeTask({ idTask }));
   }
 
+  // Method to handle the registration of a new task
   public handleRegisterTask(newTasks: ITask) {
+    // Dispatching the registerNewTask action to the store
     this.taskStore.dispatch(registerNewTask({ task: newTasks }));
   }
 
+  // Method to identify the status of a task
   public identifyStatus(status: EnumStatus) {
     return {
       [EnumStatus.COMPLETED]: 'Completed',

@@ -7,7 +7,6 @@ import { MatInputModule } from '@angular/material/input';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MAT_DATE_LOCALE, MatOptionModule, provideNativeDateAdapter } from '@angular/material/core';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
-import { LocalStorageService } from '../../../core/services/local-storage.service';
 import { MatSelectModule } from '@angular/material/select';
 import { UuidService } from '../../../core/services/uuid.service';
 import { UsersStore } from '../../../core/store/users/user.store';
@@ -16,8 +15,8 @@ import { Observable } from 'rxjs';
 import { getUsersList } from '../../../core/store/users/user.selectors';
 import { CommonModule } from '@angular/common';
 import { IUser } from '../../../core/model/user.model';
-import { ITask } from '../../../core/model/task.model';
 
+// Define date formats
 const MY_DATE_FORMATS = {
   parse: {
     dateInput: 'DD/MM/YYYY',
@@ -58,11 +57,14 @@ const MY_DATE_FORMATS = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ModalCreateTaskComponent implements OnInit {
+  // Get list of users from store
   public listUsers$: Observable<Array<IUser>> = this.userStore.select(getUsersList);
 
+  // Inject MatDialogRef and MAT_DIALOG_DATA
   readonly dialogRef = inject(MatDialogRef<ModalCreateTaskComponent>);
   readonly data = inject<any>(MAT_DIALOG_DATA);
 
+  // Define form
   public form: FormGroup;
 
   constructor(
@@ -71,22 +73,27 @@ export class ModalCreateTaskComponent implements OnInit {
     private readonly userStore: Store<UsersStore>,
     private ref: ChangeDetectorRef
   ) {
+    // Create a form group with the following fields
     this.form = this.fb.group({
-      title: ['', [Validators.required]],
-      description: ['', [Validators.required]],
-      createdDate: [''],
-      expirationDate: ['', [Validators.required]],
-      status: ['0', [Validators.required]],
-      user: [null, [Validators.required]]
+      title: ['', [Validators.required]], // Title field with required validator
+      description: ['', [Validators.required]], // Description field with required validator
+      createdDate: [''], // Created date field
+      expirationDate: ['', [Validators.required]], // Expiration date field with required validator
+      status: ['0', [Validators.required]], // Status field with required validator
+      user: [null, [Validators.required]] // User field with required validator
     });
 
+    // Set createdDate to today's date
     const today = new Date().toISOString().split('T')[0];
 
+    // Set the createdDate field to today's date
     this.form.controls['createdDate'].setValue(today)
+    // Disable the createdDate field
     this.form.controls['createdDate'].disable();
   }
 
   public ngOnInit(): void {
+    // If data is passed in, patch form with data
     if(this.data) {
       const { title, description, createdDate, expirationDate, status, user } = this.data?.task;
       this.form.patchValue({
@@ -102,17 +109,22 @@ export class ModalCreateTaskComponent implements OnInit {
     }
   }
 
+  // Close dialog
   public onNoClick(): void {
     this.dialogRef.close();
   }
 
+  // Confirm form and close dialog
   public confirm(): void {
+    // Check if the form is valid
     if (this.form.valid) {
+      // Close the dialog and pass the form value and task id
       this.dialogRef.close({
         id: this.data?.task?.id || this.uuid.generateUUID(),
         ...this.form.value
       });
     } else {
+      // Mark all form controls as touched if the form is not valid
       this.form.markAllAsTouched();
     }
   }

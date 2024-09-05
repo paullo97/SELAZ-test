@@ -39,8 +39,11 @@ import { IUser } from '../../core/model/user.model';
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
+  // Observable to get the number of users
   public usersQtd$: Observable<number> = this.store.select(getUsersListLength);
+  // Observable to get the selected user
   public selectedUser$: Observable<IUser> = this.store.select(getUserSelected);
+  // Observable to get the number of tasks
   public taskLength$: Observable<number> = this.store.select(getTaskListLeght);
 
   constructor(
@@ -49,13 +52,18 @@ export class HeaderComponent {
   )
   { }
 
+  // Method to open the dialog for selecting a user
   public openDialogUser() {
+    // Open a dialog with the ModalUsersComponent and set the minimum width to 600px
     const dialogUsers = this.dialog.open(ModalUsersComponent, {
       minWidth: '600px',
     });
 
+    // After the dialog is closed, dispatch the action to set the selected user
     dialogUsers.afterClosed().subscribe((result) => {
+      // Check if a user was selected
       if(result) {
+        // Dispatch the action to set the selected user
         this.store.dispatch(setSelectedUser({
           user: result
         }));
@@ -63,6 +71,7 @@ export class HeaderComponent {
     })
   }
 
+  // Method to open the dialog for resuming a task
   public showResume() {
     this.dialog.open(ModalResumeTaskComponent, {
       minWidth: '600px'

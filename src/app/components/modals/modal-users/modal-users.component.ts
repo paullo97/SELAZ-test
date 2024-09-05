@@ -39,8 +39,10 @@ import { IUser } from '../../../core/model/user.model';
   styleUrl: './modal-users.component.scss'
 })
 export class ModalUsersComponent {
+  // Get the list of users from the store
   public listUsers$: Observable<Array<IUser>> = this.userStore.select(getUsersList); // FIX
 
+  // Inject the MatDialogRef to close the dialog
   readonly dialogRef = inject(MatDialogRef<ModalUsersComponent>);
 
   constructor(
@@ -48,16 +50,22 @@ export class ModalUsersComponent {
     private userStore: Store<UsersStore>
   ) { }
 
+  // Open the register user modal and dispatch the registerNewUser action if the user is not already registered
   public registerNewUserModal(user?: IUser) { //fix
     const dialogRegister = this.dialog.open(ModalRegisterUserComponent, {
       minWidth: '600px',
       data: { ...user }
     });
 
+    // Subscribe to the afterClosed event of the dialogRegister
     dialogRegister.afterClosed().subscribe(result => {
+      // Check if the result is true
       if (result) {
+        // Destructure the result to get the name, role and id
         const { name, role, id } = result;
+        // Check if the user is not defined
         if(!user) {
+          // Dispatch an action to register a new user
           this.userStore.dispatch(
             registerNewUser({
               user: {
@@ -68,7 +76,9 @@ export class ModalUsersComponent {
             })
           )
         }
+        // If the user is defined
         else {
+          // Dispatch an action to edit the user
           this.userStore.dispatch(editUser({
             user: {
               id,
@@ -82,6 +92,7 @@ export class ModalUsersComponent {
   }
 
 
+  // Open the confirm modal and dispatch the deleteUser action if the user confirms
   public deleteUser(id: string): void {
     const dialogRef = this.dialog.open(ModalConfirmComponent, {
       minWidth: '300px'
@@ -94,9 +105,9 @@ export class ModalUsersComponent {
 
       this.dialogRef.close();
     });
-
   }
 
+  // Open the confirm modal and close the dialog with the selected user if the user confirms
   public selectUser(user: IUser) {
     const dialogRef = this.dialog.open(ModalConfirmComponent, {
       minWidth: '300px'

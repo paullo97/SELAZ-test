@@ -25,14 +25,18 @@ import { IUser } from '../../../core/model/user.model';
   styleUrl: './modal-resume-task.component.scss'
 })
 export class ModalResumeTaskComponent {
+  // Inject MatDialogRef to close the dialog
   readonly dialogRef = inject(MatDialogRef<ModalResumeTaskComponent>);
 
+  // Get the resume info from the store
   public resumeInfo$: Observable<IResume> = this.taskStore.select(getInfoResume);
+  // Get the user with the most tasks from the store
   public userMostTasks$: Observable<IUser | null> = this.taskStore.select(getUserWithMostTasks);
 
   constructor(private readonly taskStore: Store<TaskStore>)
   { }
 
+  // Close the dialog when the no button is clicked
   public onNoClick(): void {
     this.dialogRef.close();
   }
